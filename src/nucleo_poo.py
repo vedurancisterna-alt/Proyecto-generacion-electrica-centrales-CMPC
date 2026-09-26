@@ -73,6 +73,8 @@ class FiltradorCentrales(Transformador):
     def aplicar(self, df: pd.DataFrame) -> pd.DataFrame:
         return df[df["Central"].isin(self.centrales)].reset_index(drop=True)
 
+        
+
 
 class TransformadorAnchoLargo(Transformador):
     """Convierte de formato ancho (24 columnas Hora 1..Hora 24) a
