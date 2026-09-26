@@ -22,7 +22,6 @@ Thumbs.db
 
 # Datos originales del proyecto
 data/raw/*.xlsx
-#data/raw/*.csv
 
 # Notebooks de trabajo previo
 notebooks/
