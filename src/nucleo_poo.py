@@ -7,11 +7,15 @@ y una clase Pipeline que compone varios transformadores y los recorre
 de forma polimórfica (el bucle no consulta el tipo concreto de cada
 paso).
 
-Los tres pasos del pipeline de F2 (filtrar centrales, transformar
-ancho -> largo, construir variables derivadas) se reorganizan como
-tres clases derivadas de Transformador. No se cambia la lógica de F2:
-se reutilizan carga.py, transformacion.py y validacion.py tal como
-están; solo se reorganiza bajo un contrato común orientado a objetos.
+El pipeline de preparación se organiza en cuatro responsabilidades:
+filtrado por período, filtrado por centrales, transformación de formato
+ancho a largo y construcción de variables derivadas. Cada responsabilidad
+se implementa como una clase derivada de Transformador.
+
+La lógica funcional existente se reutiliza desde los módulos de src,
+especialmente transformacion.py, evitando duplicación de código y
+manteniendo una separación clara entre la lógica de transformación y la
+composición orientada a objetos.
 
 Verificado: Pipeline([...]).ajustar(datos_crudos).transformar(datos_crudos)
 produce un resultado idéntico, fila por fila, al dataset procesado
@@ -21,11 +25,13 @@ oficial de F2 (pd.testing.assert_frame_equal).
 from __future__ import annotations
 import pandas as pd
 
-from src.transformacion import transformar_ancho_largo
-
-DIAS_ES = {0: "Lunes", 1: "Martes", 2: "Miércoles", 3: "Jueves",
-           4: "Viernes", 5: "Sábado", 6: "Domingo"}
-
+from src.transformacion import (
+    filtrar_periodo,
+    filtrar_centrales,
+    transformar_ancho_largo,
+    crear_dia_semana,
+    crear_id_observacion,
+)
 
 class Transformador:
     """Clase base: define el contrato común de todo paso del pipeline.
@@ -56,7 +62,30 @@ class Transformador:
     def aplicar(self, df: pd.DataFrame) -> pd.DataFrame:
         raise NotImplementedError("Cada clase derivada debe implementarlo.")
 
+class FiltradorPeriodo(Transformador):
+    """Delimita el dataset al período temporal definido para el análisis."""
 
+    def __init__(self, fecha_inicio: str, fecha_fin: str):
+        super().__init__()
+        self.fecha_inicio = fecha_inicio
+        self.fecha_fin = fecha_fin
+
+    def aprender(self, df: pd.DataFrame) -> dict:
+        if "Fecha" not in df.columns:
+            raise KeyError("La columna 'Fecha' no existe en el dataset.")
+
+        return {
+            "fecha_inicio": self.fecha_inicio,
+            "fecha_fin": self.fecha_fin,
+        }
+
+    def aplicar(self, df: pd.DataFrame) -> pd.DataFrame:
+        return filtrar_periodo(
+            df,
+            self.fecha_inicio,
+            self.fecha_fin,
+        )
+    
 class FiltradorCentrales(Transformador):
     """Delimita el dataset a las centrales del alcance del proyecto."""
 
@@ -71,9 +100,7 @@ class FiltradorCentrales(Transformador):
         return {"centrales_presentes": presentes}
 
     def aplicar(self, df: pd.DataFrame) -> pd.DataFrame:
-        return df[df["Central"].isin(self.centrales)].reset_index(drop=True)
-
-        
+        return filtrar_centrales(df, self.centrales)
 
 
 class TransformadorAnchoLargo(Transformador):
@@ -112,17 +139,24 @@ class ConstructorVariablesDerivadas(Transformador):
 
     def aplicar(self, df: pd.DataFrame) -> pd.DataFrame:
         df = df.rename(columns={"Grupo reporte": "Grupo_Reporte"})
-        df["Fecha"] = pd.to_datetime(df["Fecha"])
-        df["Dia_Semana"] = df["Fecha"].dt.weekday.map(DIAS_ES)
-        df["ID_Observacion"] = (
-            df["Central"].str.replace(" ", "_", regex=False) + "_"
-            + df["Fecha"].dt.strftime("%Y%m%d")
-            + "_H" + df["Hora"].astype(str).str.zfill(2)
-        )
-        orden = ["ID_Observacion", "Año", "Mes", "Llave", "Central", "Coordinado",
-                 "Grupo_Reporte", "Tipo", "Subtipo", "Fecha", "Dia_Semana",
-                 "Hora", "Generacion_MWh"]
-        df["Fecha"] = df["Fecha"].dt.strftime("%Y-%m-%d")
+        df = crear_dia_semana(df)
+        df = crear_id_observacion(df)
+        orden = [
+            "ID_Observacion",
+            "Año",
+            "Mes",
+            "Llave",
+            "Central",
+            "Coordinado",
+            "Grupo_Reporte",
+            "Tipo",
+            "Subtipo",
+            "Fecha",
+            "Dia_Semana",
+            "Hora",
+            "Generacion_MWh",
+        ]
+        df["Fecha"] = pd.to_datetime(df["Fecha"]).dt.strftime("%Y-%m-%d")
         return df[orden]
 
 
