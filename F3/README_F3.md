@@ -55,7 +55,14 @@ Completar antes de la entrega y mantener coherencia con los commits:
 |---|---|
 | [Nombre 1] | [Módulos/celdas/pruebas/documentación] |
 | [Nombre 2] | [Módulos/celdas/pruebas/documentación] |
-| [Nombre 3] | [Módulos/celdas/pruebas/documentación] |
+| [Nombre 3] | [Módulos/celdas/pruebas/documentación] |## Contribuciones individuales
+
+| Integrante              | Contribución verificable |
+|-------------------------|--------------------------|
+| Raúl Moya Arriagada     | Implementación inicial de la arquitectura POO de F3 mediante la jerarquía `Transformador`/`Pipeline`; incorporación del patrón Strategy para agregación temporal; benchmark de eficiencia `melt` vs. `iterrows`; verificación de equivalencia con F2; y refactorización de `validacion.py` en reglas atómicas parametrizadas. |
+| Verónica Durán Cisterna | Mejoras de F2 según retroalimentación docente; incorporación de `exportacion.py` y ampliación de `transformacion.py` y `validacion.py`; implementación del análisis iterativo y recursivo de secuencias; desarrollo del núcleo algorítmico y análisis de complejidad de F3; documentación técnica de F3; y mejoras de reproducibilidad y benchmark del notebook. |
+| Daniela Rojas           | Actualización de los textos Markdown de los notebooks F1, F2 y F3; actualización de configuración del repositorio mediante `.gitignore`; e incorporación y gestión del archivo de datos raw utilizado por F3. |
+| Manuel Sánchez          | Refactorización del pipeline POO de F3 para reutilizar funciones existentes de `transformacion.py`, reducir duplicación de lógica e incorporar explícitamente el filtrado temporal mediante `FiltradorPeriodo`; actualización asociada del notebook F3 y de su documentación del pipeline. |
 
 ## Reproducibilidad
 Los datos crudos pueden permanecer fuera de Git si están excluidos mediante `.gitignore`. El dataset procesado utilizado para verificar la equivalencia con F2 debe conservarse en la ruta documentada por el proyecto. Los resultados de rendimiento pueden variar entre equipos, por lo que las comparaciones deben ejecutarse bajo las mismas condiciones.
