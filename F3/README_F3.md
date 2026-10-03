@@ -49,13 +49,6 @@ Las versiones exactas deben conservarse en `requirements.txt`. El proyecto utili
 - Aplicación sobre las tres centrales del estudio.
 
 ## Contribuciones individuales
-Completar antes de la entrega y mantener coherencia con los commits:
-
-| Integrante | Contribución verificable |
-|---|---|
-| [Nombre 1] | [Módulos/celdas/pruebas/documentación] |
-| [Nombre 2] | [Módulos/celdas/pruebas/documentación] |
-| [Nombre 3] | [Módulos/celdas/pruebas/documentación] |## Contribuciones individuales
 
 | Integrante              | Contribución verificable |
 |-------------------------|--------------------------|
@@ -66,3 +59,4 @@ Completar antes de la entrega y mantener coherencia con los commits:
 
 ## Reproducibilidad
 Los datos crudos pueden permanecer fuera de Git si están excluidos mediante `.gitignore`. El dataset procesado utilizado para verificar la equivalencia con F2 debe conservarse en la ruta documentada por el proyecto. Los resultados de rendimiento pueden variar entre equipos, por lo que las comparaciones deben ejecutarse bajo las mismas condiciones.
+
