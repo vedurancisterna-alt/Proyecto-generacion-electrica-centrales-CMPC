@@ -75,6 +75,29 @@ data/raw/generacion_real_cen_ene_ago_2026.csv
 
 El archivo fuente `data/raw/generacion_real_cen_ene_ago_2026.csv` se mantiene versionado en el repositorio para favorecer la reproducibilidad del proyecto y permitir la ejecución completa del flujo F1–F4. Los datos provienen de la fuente pública del Coordinador Eléctrico Nacional (CEN).
 
+### Verificación de integridad de la fuente
+
+Para comprobar que se trabaja con el mismo archivo original y con el mismo dataset procesado, se registran sus características:
+
+| Archivo | Tamaño | Filas × columnas | SHA-256 |
+|---|---|---|---|
+| `data/raw/generacion_real_cen_ene_ago_2026.csv` | 84.923.560 bytes | 359.891 × 33 | `82c754f772fcc556364a4d47fd82c40ac084b6deecfefcbd3a1e0206be13bdab` |
+| `data/processed/dataset_cen_centrales_cmpc_ene_ago_2026.csv` | 2.883.275 bytes | 17.496 × 13 | `a4c5ac11a4e2460d947beef917160914d9b81ee100e1486364f2c9aaf730c3b7` |
+
+Verificación en Windows (PowerShell):
+
+```powershell
+certutil -hashfile data\raw\generacion_real_cen_ene_ago_2026.csv SHA256
+```
+
+Verificación en Linux o macOS:
+
+```bash
+sha256sum data/raw/generacion_real_cen_ene_ago_2026.csv
+```
+
+> Los valores corresponden a los archivos tal como se usan en Windows (saltos de línea CRLF). Si Git convierte los saltos de línea al clonar el repositorio en otro sistema, el tamaño y el hash pueden diferir; en ese caso se comparan el número de filas y de columnas.
+
 > El proyecto identifica la información como una fuente de acceso público. No se atribuye una licencia abierta específica mientras esta no haya sido verificada expresamente en los términos de publicación del CEN.
 
 ---
@@ -180,6 +203,9 @@ Proyecto/
 │
 ├── docs/
 │   ├── B43-DIN-04-Diccionario-de-Datos-Web-SIP.pdf
+│   ├── Informe_Tecnico_Sumativa1_Grupo2.docx
+│   ├── f3_s02_entregable_grupo2.pdf
+│   ├── f4_s03_evaluacion_entregable_grupo2.docx
 │   └── evidencias/
 │
 ├── src/
@@ -193,6 +219,7 @@ Proyecto/
 │   └── secuencias.py
 │
 ├── .gitignore
+├── .mailmap
 ├── README.md
 ├── changelog.md
 └── requirements.txt
@@ -404,6 +431,22 @@ Desde la raíz del proyecto:
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
+### Verificación del entorno
+
+Cada notebook (F1 a F4) imprime en su primera celda de código las versiones de Python, pandas y NumPy y comprueba que el entorno virtual esté activo:
+
+```python
+print("Entorno virtual activo:", sys.prefix != sys.base_prefix)
+```
+
+El resultado esperado es `True`. Si aparece `False`, el kernel no corresponde al `.venv` del proyecto y hay que seleccionarlo antes de ejecutar.
+
+Si se agrega o actualiza alguna librería, `requirements.txt` debe regenerarse desde el mismo entorno donde se ejecutan los notebooks, para que las versiones declaradas sean las que realmente se usaron:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip freeze > requirements.txt
+```
+
 ---
 
 ## Instrucciones de ejecución
@@ -557,6 +600,19 @@ La integración de las cuatro fases permite mantener continuidad entre **problem
 - Fuente pública documentada.
 - Repositorio gestionado mediante Git y GitHub.
 - Trazabilidad F1 → F2 → F3 → F4 documentada.
+
+---
+
+## Contribuciones individuales
+
+Las contribuciones de F3 se documentan en `F3/README_F3.md`. Las de F4 se resumen aquí; cada una se puede verificar con `git log --author="<nombre>" --oneline -- F4/`.
+
+| Integrante | Contribución verificable en F4 |
+|---|---|
+| Raúl Moya Arriagada | Rediseño de las figuras analíticas (títulos que comunican el hallazgo, color fijo por central, ejes desde cero y tipos de gráfico distintos; commit `7ad92d9`); verificación del entorno virtual en los cuatro notebooks; pruebas de caso normal, límite y excepción de las agregaciones y comprobación de equivalencia desde la fuente original en F4. |
+| Verónica Durán Cisterna | Pendiente de completar con sus commits en F4. |
+| Daniela Rojas Vilches | Pendiente de completar con sus commits en F4. |
+| Manuel Sánchez Cárcamo | Pendiente de completar con sus commits en F4. |
 
 ---
 
