@@ -609,10 +609,11 @@ Las contribuciones de F3 se documentan en `F3/README_F3.md`. Las de F4 se resume
 
 | Integrante | Contribución verificable en F4 |
 |---|---|
-| Raúl Moya Arriagada | Rediseño de las figuras analíticas (títulos que comunican el hallazgo, color fijo por central, ejes desde cero y tipos de gráfico distintos; commit `7ad92d9`); verificación del entorno virtual en los cuatro notebooks; pruebas de caso normal, límite y excepción de las agregaciones y comprobación de equivalencia desde la fuente original en F4. |
-| Verónica Durán Cisterna | Pendiente de completar con sus commits en F4. |
-| Daniela Rojas Vilches | Pendiente de completar con sus commits en F4. |
-| Manuel Sánchez Cárcamo | Pendiente de completar con sus commits en F4. |
+| Verónica Durán Cisterna | Inicio de F4 con consolidación y análisis temporal (`3da2753`); desarrollo del análisis, visualizaciones e interpretación de resultados (`513d05b`); y fortalecimiento de la discusión metodológica (`64d8464`). |
+| Raúl Moya Arriagada | Rediseño de las figuras analíticas con títulos orientados al hallazgo, color consistente por central y ejes desde cero (`7ad92d9`); además de ajustes finales asociados al entorno reproducible y pruebas del proyecto (`d9a94ab`). |
+| Daniela Rojas Vilches | Limpieza de metadatos y outputs del notebook F4 (`024204c`) e incorporación de la prueba de equivalencia mediante `assert_frame_equal` (`3dc543e`). |
+| Manuel Sánchez Cárcamo | Mejora de las figuras analíticas 1, 2 y 3 mediante incorporación de fuente e interpretación analítica (`9158bda`, `c7aaee2`, `9cdf8c7`). |
+
 
 ---
 
