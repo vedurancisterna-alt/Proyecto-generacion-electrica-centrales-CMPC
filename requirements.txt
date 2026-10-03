@@ -38,3 +38,8 @@ traitlets==5.16.1
 typing_extensions==4.16.0
 tzdata==2026.3
 wcwidth==0.8.3
+
+# Servidor de Jupyter para abrir y ejecutar los notebooks
+notebook==7.6.2
+jupyter_server==2.21.0
+nbformat==5.11.1
