@@ -1,10 +1,10 @@
-# Proyecto de Ciencia de Datos – Sumativa 1
+# Proyecto de Ciencia de Datos – Generación eléctrica en centrales CMPC
 
-## Análisis reproducible de generación eléctrica horaria en centrales CMPC a partir de datos públicos del CEN
+## Análisis reproducible de generación eléctrica horaria a partir de datos públicos del CEN
 
-Este repositorio corresponde al desarrollo de la **Sumativa 1** del curso **Programación para la Ciencia de Datos**, asociada a las Fases 1 y 2 del proyecto transversal.
+Este repositorio contiene el desarrollo integrado de las **Fases 1, 2, 3 y 4** del proyecto de **Programación para la Ciencia de Datos**.
 
-El proyecto utiliza datos públicos de **Generación Real** publicados por el **Coordinador Eléctrico Nacional (CEN)** y se concentra en tres centrales asociadas en la fuente a **BIOENERGÍAS FORESTALES SPA**:
+El proyecto utiliza datos públicos de **Generación Real** publicados por el **Coordinador Eléctrico Nacional (CEN)** y analiza tres centrales asociadas en la fuente a **BIOENERGÍAS FORESTALES SPA**:
 
 - `TER CMPC LAJA`
 - `TER CMPC PACIFICO`
@@ -12,7 +12,9 @@ El proyecto utiliza datos públicos de **Generación Real** publicados por el **
 
 El período de estudio comprende desde el **1 de enero hasta el 31 de agosto de 2026**.
 
-En esta etapa se desarrollan la definición del problema de investigación, configuración del entorno reproducible, obtención y carga de datos, exploración, preparación, transformación, validación técnica y generación del dataset procesado que servirá de base para las fases posteriores.
+El flujo completo abarca la definición del problema, preparación y validación de datos, construcción de un núcleo algorítmico modular y orientado a objetos, evaluación de eficiencia, análisis temporal, caracterización de registros `0 MWh`, visualización e interpretación de resultados.
+
+> El alcance analítico final se mantiene exclusivamente sobre las tres centrales anteriores, conforme a la delimitación definida en las fases iniciales del proyecto.
 
 ---
 
@@ -20,7 +22,7 @@ En esta etapa se desarrollan la definición del problema de investigación, conf
 
 **¿Qué patrones temporales de generación eléctrica caracterizan a las centrales TER CMPC Laja, TER CMPC Pacífico y TER CMPC Santa Fe durante el período enero–agosto de 2026?**
 
-Esta pregunta orienta el proyecto desde una perspectiva analítica y permite articular las etapas de preparación desarrolladas en F1 y F2 con los análisis que se profundizarán posteriormente.
+La pregunta articula las cuatro fases del proyecto: F1 define el problema y alcance; F2 prepara y valida los datos; F3 desarrolla el núcleo algorítmico; y F4 consolida el análisis, visualización e interpretación de los resultados.
 
 ---
 
@@ -28,9 +30,7 @@ Esta pregunta orienta el proyecto desde una perspectiva analítica y permite art
 
 La fuente pública del CEN presenta la información de Generación Real en formato ancho: cada registro corresponde a una combinación central–fecha y contiene 24 columnas horarias (`Hora 1` a `Hora 24`).
 
-Esta estructura es adecuada para la publicación de los datos, pero requiere ser transformada para desarrollar análisis temporales a nivel horario mediante herramientas de ciencia de datos.
-
-Por ello, el proyecto implementa un flujo reproducible que permite cargar la fuente, verificar su estructura, delimitar el alcance a las tres centrales seleccionadas, transformar las 24 columnas horarias a formato largo, construir variables analíticas y validar la integridad del resultado.
+Esta estructura requiere transformación para desarrollar análisis temporales a nivel horario. Por ello, el proyecto implementa un flujo reproducible que permite cargar la fuente, verificar su estructura, delimitar el alcance a las tres centrales seleccionadas, transformar las 24 columnas horarias a formato largo, construir variables analíticas, validar la integridad del resultado y posteriormente analizar sus patrones temporales.
 
 La **unidad de observación final** corresponde a una central en una fecha y hora determinada, con su generación eléctrica reportada en MWh.
 
@@ -38,7 +38,7 @@ La **unidad de observación final** corresponde a una central en una fecha y hor
 
 ## Objetivo general
 
-Caracterizar los patrones temporales de generación eléctrica de las centrales **TER CMPC Laja, TER CMPC Pacífico y TER CMPC Santa Fe** durante el período enero–agosto de 2026, utilizando datos públicos de Generación Real del Coordinador Eléctrico Nacional y un proceso reproducible de preparación y validación de datos.
+Caracterizar los patrones temporales de generación eléctrica de las centrales **TER CMPC Laja, TER CMPC Pacífico y TER CMPC Santa Fe** durante enero–agosto de 2026, utilizando datos públicos de Generación Real del Coordinador Eléctrico Nacional y un proceso reproducible de preparación, validación y análisis.
 
 ---
 
@@ -47,7 +47,7 @@ Caracterizar los patrones temporales de generación eléctrica de las centrales 
 1. Caracterizar la distribución horaria, diaria y mensual de la generación eléctrica de las tres centrales seleccionadas.
 2. Comparar los patrones temporales de generación entre TER CMPC Laja, TER CMPC Pacífico y TER CMPC Santa Fe.
 3. Caracterizar la frecuencia y distribución temporal de los registros con generación igual a `0 MWh`, sin atribuir una causa operacional no respaldada por la fuente.
-4. Identificar regularidades y diferencias en el comportamiento temporal de las centrales que sirvan de base para las fases posteriores del proyecto.
+4. Identificar regularidades y diferencias en el comportamiento temporal de las centrales.
 
 ---
 
@@ -61,7 +61,7 @@ https://www.coordinador.cl/operacion/graficos/operacion-real/generacion-real-/
 **Diccionario de Datos Web SIP:**  
 https://www.coordinador.cl/wp-content/uploads/2022/11/B43-DIN-04-Diccionario-de-Datos-Web-SIP.pdf
 
-El diccionario utilizado como respaldo documental también se encuentra incorporado en:
+El diccionario utilizado como respaldo documental también se encuentra en:
 
 ```text
 docs/B43-DIN-04-Diccionario-de-Datos-Web-SIP.pdf
@@ -89,7 +89,7 @@ La descarga correspondiente al período analizado contiene:
 - **33 columnas**
 - período **01-01-2026 a 31-08-2026**
 - 24 columnas horarias: `Hora 1` a `Hora 24`
-- variables descriptivas de la fuente como año, mes, central, coordinado, tipo y subtipo
+- variables descriptivas como año, mes, central, coordinado, tipo y subtipo
 
 Al delimitar el alcance a las tres centrales seleccionadas se obtienen **729 registros en formato ancho**, equivalentes a **243 fechas por central**.
 
@@ -114,8 +114,6 @@ Archivo procesado:
 data/processed/dataset_cen_centrales_cmpc_ene_ago_2026.csv
 ```
 
-El dataset procesado anterior utilizado durante etapas preliminares del proyecto fue retirado para evitar inconsistencias entre fuentes y versiones.
-
 ---
 
 ## Variables del dataset procesado
@@ -136,7 +134,7 @@ El dataset procesado anterior utilizado durante etapas preliminares del proyecto
 | `Hora` | Variable temporal discreta |
 | `Generacion_MWh` | Variable cuantitativa continua de interés |
 
-Dentro del alcance correspondiente exclusivamente a las tres centrales seleccionadas, las variables `Coordinado`, `Tipo` y `Subtipo` presentan un único valor observado. Por lo tanto, no aportan variabilidad para comparar las centrales dentro de este subconjunto, aunque se conservan para mantener contexto y trazabilidad respecto de la fuente.
+Dentro del alcance de las tres centrales seleccionadas, `Coordinado`, `Tipo` y `Subtipo` presentan un único valor observado. Se conservan para mantener contexto y trazabilidad respecto de la fuente.
 
 ---
 
@@ -146,9 +144,13 @@ Los registros con generación igual a `0 MWh` se conservan como observaciones v�
 
 En el dataset procesado se identificaron **4.438 registros con generación igual a 0 MWh**, equivalentes aproximadamente al **25,37 %** de las observaciones.
 
-Su distribución no es homogénea entre las tres centrales, por lo que estos registros constituyen un elemento relevante para la caracterización temporal posterior.
+Su distribución no es homogénea entre las centrales:
 
-El proyecto **no interpreta automáticamente estos valores como detenciones, fallas o mantenciones**, ya que la fuente seleccionada no proporciona por sí sola evidencia suficiente para atribuirles una causa operacional específica.
+- TER CMPC Laja: **3.193 registros (54,75 %)**
+- TER CMPC Pacífico: **371 registros (6,36 %)**
+- TER CMPC Santa Fe: **874 registros (14,99 %)**
+
+El proyecto **no interpreta automáticamente estos valores como detenciones, fallas o mantenciones**, ya que la fuente utilizada no proporciona evidencia suficiente para atribuirles una causa operacional específica.
 
 ---
 
@@ -162,9 +164,13 @@ Proyecto/
 │
 ├── F2/
 │   └── F2_preparacion_datos.ipynb
-|
+│
 ├── F3/
-│   └── F3_nucleo_algoritmico.ipynb
+│   ├── F3_nucleo_algoritmico.ipynb
+│   └── README_F3.md
+│
+├── F4/
+│   └── F4_Consolidado_Proyecto.ipynb
 │
 ├── data/
 │   ├── raw/
@@ -179,13 +185,16 @@ Proyecto/
 ├── src/
 │   ├── __init__.py
 │   ├── carga.py
+│   ├── exportacion.py
 │   ├── transformacion.py
-│   └── validacion.py
+│   ├── validacion.py
 │   ├── nucleo_poo.py
-│   └── agregacion_temporal.py
+│   ├── agregacion_temporal.py
+│   └── secuencias.py
 │
 ├── .gitignore
 ├── README.md
+├── changelog.md
 └── requirements.txt
 ```
 
@@ -193,29 +202,54 @@ Proyecto/
 
 ## Modularización del código
 
-Parte de la lógica reutilizable del pipeline fue separada del notebook y organizada en módulos Python dentro de `src/`.
+La lógica reutilizable se encuentra organizada en módulos Python dentro de `src/`.
 
 ### `src/carga.py`
 
-Contiene la función responsable de comprobar la existencia y cargar el archivo de Generación Real del CEN.
+Gestiona la comprobación de existencia y carga del archivo de Generación Real del CEN.
 
 ### `src/transformacion.py`
 
-Contiene la transformación desde el formato ancho original, con 24 columnas horarias, al formato largo utilizado para el análisis.
+Contiene la lógica reutilizable de preparación y transformación del dataset, incluida la transformación desde el formato ancho original al formato largo utilizado para el análisis.
+
+### `src/exportacion.py`
+
+Centraliza la exportación y relectura controlada del dataset procesado para apoyar la reproducibilidad del flujo.
 
 ### `src/validacion.py`
 
-Contiene las reglas de validación del dataset procesado, descompuestas en funciones atómicas e independientes (`validar_sin_nulos`, `validar_sin_duplicados`, `validar_sin_duplicados_exactos`, `validar_no_negativos`, `validar_granularidad`, `validar_categorias_esperadas`), cada una probable por separado. `validar_dataset_procesado()` compone estas reglas para mantener compatibilidad con F2, recibiendo los valores esperados (centrales, filas, columnas) como parámetros con valor por defecto en vez de escritos dentro de la lógica — permitiendo ampliar el período o el alcance del proyecto sin modificar el código.
+Contiene reglas de validación independientes, entre ellas controles de nulos, duplicados, valores negativos, granularidad y categorías esperadas. `validar_dataset_procesado()` compone las reglas para validar integralmente el resultado y mantener compatibilidad con F2 y las fases posteriores.
 
 ### `src/nucleo_poo.py`
 
-Contiene la clase base `Transformador`, sus tres clases derivadas y la clase `Pipeline` que las compone. Reutiliza `carga.py`, `transformacion.py` y `validacion.py` sin reimplementar su lógica.
+Implementa la abstracción `Transformador` y cuatro transformadores concretos:
+
+1. `FiltradorPeriodo`
+2. `FiltradorCentrales`
+3. `TransformadorAnchoLargo`
+4. `ConstructorVariablesDerivadas`
+
+La clase `Pipeline` compone estos transformadores y permite ejecutar el flujo de forma secuencial y polimórfica, reutilizando la lógica existente en los módulos funcionales.
 
 ### `src/agregacion_temporal.py`
 
-Contiene las clases del patrón Strategy para agregación temporal (`AgregacionHoraria`, `AgregacionDiaria`, `AgregacionMensual`, `AgregacionPorDiaSemana`) y `CaracterizadorTemporal`, que las aplica de forma intercambiable.
+Implementa el patrón de diseño **Strategy** mediante:
+
+- `AgregacionHoraria`
+- `AgregacionDiaria`
+- `AgregacionMensual`
+- `AgregacionPorDiaSemana`
+- `CaracterizadorTemporal`
+
+Esto permite intercambiar estrategias de caracterización temporal sin modificar la clase que las utiliza.
+
+### `src/secuencias.py`
+
+Contiene implementaciones iterativa y recursiva para analizar secuencias consecutivas de registros con generación igual a `0 MWh`, junto con funciones utilizadas para resumir estas secuencias por central.
 
 ---
+
+# Fases del proyecto
 
 ## Fase 1 – Definición del proyecto
 
@@ -229,10 +263,10 @@ Contiene las clases del patrón Strategy para agregación temporal (`AgregacionH
 - unidad de observación;
 - variables y roles;
 - supuestos y exclusiones;
-- reproducibilidad y trazabilidad como conceptos diferenciados;
+- reproducibilidad y trazabilidad;
 - registro de decisiones;
 - configuración del entorno;
-- localización reproducible de la raíz del proyecto;
+- localización reproducible de la raíz;
 - carga inicial y validación de estructura.
 
 ---
@@ -241,15 +275,15 @@ Contiene las clases del patrón Strategy para agregación temporal (`AgregacionH
 
 `F2/F2_preparacion_datos.ipynb` implementa:
 
-1. carga reproducible mediante `src/carga.py`;
-2. validación del esquema de la fuente;
+1. carga reproducible;
+2. validación del esquema;
 3. exploración inicial;
 4. conversión y validación de fechas;
-5. selección reproducible de las tres centrales;
-6. transformación ancho → largo mediante `src/transformacion.py`;
+5. delimitación reproducible del período y de las tres centrales;
+6. transformación ancho → largo;
 7. construcción de variables derivadas;
 8. validaciones de calidad e integridad;
-9. comprobación de variables con varianza cero;
+9. comprobación de variables sin variación;
 10. caracterización descriptiva de registros `0 MWh`;
 11. validación de 24 observaciones por central y fecha;
 12. visualizaciones exploratorias;
@@ -261,32 +295,93 @@ Contiene las clases del patrón Strategy para agregación temporal (`AgregacionH
 
 ## Fase 3 – Núcleo algorítmico, eficiencia y programación orientada a objetos
 
-`F3/F3_nucleo_algoritmico.ipynb` reorganiza el pipeline de F2 bajo un diseño orientado a objetos, sin modificar su lógica ni sus resultados. Implementa:
+`F3/F3_nucleo_algoritmico.ipynb` reorganiza y amplía el procesamiento bajo un diseño modular y orientado a objetos, preservando la equivalencia funcional con F2.
 
-1. una clase base `Transformador` (método plantilla) que define el contrato `ajustar()` / `transformar()`, con control de estado y copia defensiva del DataFrame;
-2. tres clases derivadas —`FiltradorCentrales`, `TransformadorAnchoLargo`, `ConstructorVariablesDerivadas`— que heredan de `Transformador` y encapsulan, respectivamente, el filtro de centrales, la transformación ancho→largo y la construcción de variables derivadas (`Dia_Semana`, `ID_Observacion`);
-3. una clase `Pipeline` que compone y ejecuta las tres anteriores de forma polimórfica, sin consultar en ningún punto el tipo concreto de cada paso;
-4. verificación de equivalencia funcional: el resultado de `Pipeline(...).ejecutar()` se contrasta con `pd.testing.assert_frame_equal` contra el dataset procesado oficial de F2, confirmando que la reorganización en clases preserva exactamente la semántica del pipeline original;
-5. comparación de eficiencia entre dos implementaciones de la transformación ancho→largo (vectorizada con `pandas.melt`, usada en producción, e iterativa con `iterrows`, solo para contraste), midiendo tiempo con `timeit` y memoria con `tracemalloc` sobre las 729 filas reales del proyecto, con verificación previa de equivalencia entre ambas;
-6. patrón de diseño **Strategy** para la agregación temporal: cuatro clases intercambiables (`AgregacionHoraria`, `AgregacionDiaria`, `AgregacionMensual`, `AgregacionPorDiaSemana`) que implementan un contrato común, aplicadas mediante `CaracterizadorTemporal` sin que este conozca cuál estrategia recibe — lo que responde directamente a los Objetivos específicos 1 y 2 del proyecto (caracterizar y comparar los patrones temporales entre las tres centrales).
+El pipeline de F3 posee **cuatro etapas**:
 
-Sobre recursividad: el pipeline tiene tres pasos fijos y conocidos, no un problema de profundidad variable, por lo que se optó por división funcional en clases en lugar de recursividad.
+```text
+FiltradorPeriodo
+      ↓
+FiltradorCentrales
+      ↓
+TransformadorAnchoLargo
+      ↓
+ConstructorVariablesDerivadas
+```
+
+F3 incorpora:
+
+1. clase base `Transformador`, con contrato común para los transformadores;
+2. cuatro transformadores concretos;
+3. clase `Pipeline`, que ejecuta los pasos de forma polimórfica;
+4. reutilización de la lógica funcional existente en `src/`;
+5. verificación de equivalencia con el dataset oficial de F2 mediante `pd.testing.assert_frame_equal`;
+6. benchmark entre transformación vectorizada con `pandas.melt` e implementación iterativa con `iterrows`;
+7. medición de tiempo mediante `timeit`;
+8. medición de memoria mediante `tracemalloc`;
+9. patrón **Strategy** para agregaciones horaria, diaria, mensual y por día de la semana;
+10. análisis de secuencias consecutivas de `0 MWh` mediante enfoques iterativo y recursivo.
+
+### Uso de recursividad
+
+La recursividad no se incorpora artificialmente al pipeline principal porque sus cuatro etapas son fijas y conocidas. Se utiliza en el problema específico de análisis de secuencias consecutivas, donde puede compararse de forma justificada con una implementación iterativa.
+
+---
+
+## Fase 4 – Consolidación, visualización y comunicación de resultados
+
+`F4/F4_Consolidado_Proyecto.ipynb` integra los resultados de las fases anteriores y responde la pregunta de investigación mediante análisis descriptivo y visual.
+
+F4 incorpora:
+
+1. recuperación de la pregunta, objetivos y alcance;
+2. carga del dataset procesado de F2;
+3. validación integral del dataset;
+4. reutilización de las estrategias temporales desarrolladas en F3;
+5. estadísticas descriptivas por central;
+6. perfil horario de generación;
+7. evolución diaria;
+8. comportamiento mensual;
+9. análisis complementario por día de la semana;
+10. comparación entre centrales;
+11. frecuencia y distribución temporal de registros `0 MWh`;
+12. análisis de secuencias consecutivas de `0 MWh`;
+13. síntesis de resultados;
+14. discusión y limitaciones;
+15. conclusiones vinculadas con los objetivos;
+16. trazabilidad F1 → F2 → F3 → F4.
+
+### Principales resultados
+
+Las estadísticas descriptivas muestran comportamientos diferenciados:
+
+| Central | Media MWh | Mediana MWh | Registros 0 MWh | % 0 MWh |
+|---|---:|---:|---:|---:|
+| TER CMPC LAJA | 3,45 | 0,0 | 3.193 | 54,75 % |
+| TER CMPC PACIFICO | 16,19 | 17,8 | 371 | 6,36 % |
+| TER CMPC SANTA FE | 5,14 | 5,7 | 874 | 14,99 % |
+
+TER CMPC Pacífico presenta el mayor nivel de generación durante el período analizado. TER CMPC Santa Fe presenta niveles intermedios, mientras que TER CMPC Laja registra la mayor proporción de observaciones iguales a `0 MWh`.
+
+Las escalas horaria, diaria y mensual permiten observar que las diferencias entre centrales no se limitan al nivel medio de generación, sino que también se manifiestan en sus trayectorias temporales y en la distribución de los registros iguales a cero.
+
+Estos resultados son **descriptivos** y no permiten atribuir causas técnicas u operacionales a las variaciones observadas.
 
 ---
 
 ## Decisiones de preprocesamiento
 
-La inspección de la fuente no identificó valores nulos ni registros duplicados exactos dentro del dataset utilizado, por lo que no fue necesario aplicar procedimientos de imputación.
+La inspección de la fuente no identificó valores nulos ni registros duplicados exactos dentro del dataset utilizado, por lo que no fue necesario aplicar imputación.
 
-Tampoco se aplicó normalización o escalamiento a `Generacion_MWh`, debido a que en esta fase se busca preservar la magnitud original reportada en MWh para su posterior caracterización descriptiva.
+Tampoco se aplicó normalización o escalamiento a `Generacion_MWh`, porque el análisis busca preservar la magnitud original reportada en MWh.
 
-Las principales operaciones de preparación corresponden al casting de tipos, delimitación del alcance, transformación estructural ancho–largo, construcción de variables derivadas y validación de integridad.
+Las principales operaciones corresponden a casting de tipos, delimitación del alcance, transformación ancho–largo, construcción de variables derivadas y validación de integridad.
 
 ---
 
 ## Reproducibilidad
 
-La **reproducibilidad** corresponde a la capacidad de volver a ejecutar el procesamiento desde la fuente utilizando el código, estructura y entorno documentados.
+La **reproducibilidad** corresponde a la capacidad de volver a ejecutar el procesamiento y análisis utilizando la fuente, código, estructura y entorno documentados.
 
 El proyecto utiliza:
 
@@ -298,7 +393,8 @@ El proyecto utiliza:
 - módulos reutilizables en `src/`;
 - validaciones automáticas;
 - fuente pública identificada;
-- transformación codificada de inicio a fin.
+- transformación codificada;
+- notebooks ejecutables secuencialmente.
 
 ### Instalación de dependencias
 
@@ -307,8 +403,6 @@ Desde la raíz del proyecto:
 ```powershell
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
-
-Este comando utiliza el intérprete Python del entorno virtual del proyecto e instala las dependencias registradas en `requirements.txt`.
 
 ---
 
@@ -322,9 +416,7 @@ Descargar desde el CEN la información de Generación Real correspondiente a ene
 data/raw/generacion_real_cen_ene_ago_2026.csv
 ```
 
-### 2. Instalar las dependencias
-
-Desde la raíz del repositorio ejecutar:
+### 2. Instalar dependencias
 
 ```powershell
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
@@ -338,7 +430,7 @@ Abrir:
 F1/F1_definicion.ipynb
 ```
 
-Seleccionar el kernel correspondiente al entorno virtual del proyecto, ejecutar **Restart Kernel** y posteriormente **Run All**.
+Seleccionar el kernel del entorno virtual y ejecutar **Restart Kernel → Run All**.
 
 ### 4. Ejecutar F2
 
@@ -348,15 +440,13 @@ Abrir:
 F2/F2_preparacion_datos.ipynb
 ```
 
-Seleccionar el mismo kernel, ejecutar **Restart Kernel** y posteriormente **Run All**.
+Ejecutar **Restart Kernel → Run All**.
 
 Al finalizar debe generarse:
 
 ```text
 data/processed/dataset_cen_centrales_cmpc_ene_ago_2026.csv
 ```
-
-La ejecución completa debe finalizar sin errores y superar las validaciones técnicas incorporadas en el notebook y en `src/validacion.py`.
 
 ### 5. Ejecutar F3
 
@@ -366,33 +456,49 @@ Abrir:
 F3/F3_nucleo_algoritmico.ipynb
 ```
 
-Seleccionar el mismo kernel del entorno virtual, ejecutar **Restart Kernel** y posteriormente **Run All**. El notebook depende del dataset procesado de F2 (`data/processed/dataset_cen_centrales_cmpc_ene_ago_2026.csv`) para la verificación de equivalencia, por lo que F2 debe ejecutarse primero.
+Ejecutar **Restart Kernel → Run All**. F3 utiliza el dataset procesado generado y validado en F2.
+
+### 6. Ejecutar F4
+
+Abrir:
+
+```text
+F4/F4_Consolidado_Proyecto.ipynb
+```
+
+Ejecutar **Restart Kernel → Run All**. F4 utiliza el dataset procesado y reutiliza componentes desarrollados en F3 para consolidar el análisis final.
+
+El orden recomendado es:
+
+```text
+F1 → F2 → F3 → F4
+```
 
 ---
 
 ## Trazabilidad y control de versiones
 
-La **trazabilidad** corresponde a la capacidad de reconstruir la evolución del proyecto, sus modificaciones, decisiones y contribuciones.
+La **trazabilidad** permite reconstruir la evolución del proyecto, sus decisiones y contribuciones.
 
-Para ello se utilizan:
+Se utilizan:
 
-- Git para el control de versiones local;
-- GitHub como repositorio remoto y plataforma de colaboración;
+- Git para control de versiones local;
+- GitHub como repositorio remoto;
 - ramas de trabajo;
 - commits descriptivos;
-- merges que preservan el trabajo colaborativo;
-- historial de cambios;
+- merges colaborativos;
+- `changelog.md`;
 - notebooks documentados;
 - README;
 - evidencias de ejecución.
 
-Los archivos de `data/raw/` no se versionan. El dataset procesado sí se incorpora al repositorio para permitir verificar el resultado final del pipeline.
+Los archivos de `data/raw/` no se versionan. El dataset procesado sí se incorpora al repositorio para permitir verificar el resultado del pipeline.
 
 ---
 
 ## Validaciones técnicas
 
-Las principales verificaciones implementadas incluyen:
+Las principales verificaciones incluyen:
 
 - existencia del archivo fuente;
 - esquema y columnas esperadas;
@@ -404,10 +510,10 @@ Las principales verificaciones implementadas incluyen:
 - ausencia de generación negativa;
 - cobertura temporal;
 - exactamente 24 observaciones por central y fecha;
-- variables categóricas sin variación dentro del alcance;
+- categorías esperadas;
 - exportación y relectura del resultado;
-- prueba con duplicado artificial;
-- manejo controlado de archivo inexistente.
+- pruebas de caso normal, límite y excepción;
+- equivalencia funcional entre F2 y F3.
 
 ---
 
@@ -424,46 +530,33 @@ Las principales verificaciones implementadas incluyen:
 
 ---
 
-## Vinculación con las fases del proyecto
+## Vinculación entre las fases
 
-### Materializado en F1, F2 y F3
+| Fase | Propósito | Resultado principal |
+|---|---|---|
+| **F1** | Definición | Problema, pregunta, objetivos, alcance y entorno reproducible |
+| **F2** | Preparación | Dataset horario procesado y validado |
+| **F3** | Núcleo algorítmico | POO, pipeline de cuatro etapas, Strategy, eficiencia y secuencias |
+| **F4** | Consolidación | Análisis, visualizaciones, interpretación, discusión y conclusiones |
 
-En la Sumativa 2 se encuentran implementados y verificables:
-
-- definición del problema y pregunta de investigación;
-- objetivos;
-- fuente y alcance;
-- entorno reproducible;
-- carga y exploración;
-- transformación;
-- validación;
-- modularización;
-- dataset procesado;
-- control de versiones y trazabilidad;
-- jerarquía de clases orientada a objetos (Transformador/Pipeline);
-- comparación de eficiencia entre implementaciones;
-- patrón de diseño Strategy.
-
-### Proyectado para F4
-
-Las fases posteriores profundizarán la caracterización de los patrones temporales identificados, las comparaciones entre centrales y los análisis necesarios para responder integralmente la pregunta de investigación.
-
-Esta separación permite distinguir entre los componentes actualmente implementados y aquellos que forman parte de la continuidad del proyecto.
+La integración de las cuatro fases permite mantener continuidad entre **problema → datos → procesamiento → algoritmos → análisis → resultados → conclusiones**.
 
 ---
 
 ## Estado actual
 
-- F1 actualizado y ejecutado mediante `Restart Kernel + Run All`.
-- F2 actualizado y ejecutado mediante `Restart Kernel + Run All`.
-- F3 implementado: jerarquía Transformador/Pipeline (POO), patrón Strategy para agregación temporal, comparación de eficiencia melt vs. iterrows, equivalencia funcional verificada contra F2.
+- F1 finalizado y ejecutado mediante `Restart Kernel → Run All`.
+- F2 finalizado y ejecutado mediante `Restart Kernel → Run All`.
+- F3 finalizado, con pipeline de cuatro etapas, POO, patrón Strategy, benchmark y análisis de secuencias.
+- F4 finalizado y ejecutado mediante `Restart Kernel → Run All`.
+- Dataset procesado validado: **17.496 observaciones y 13 variables**.
+- Alcance final: **TER CMPC Laja, TER CMPC Pacífico y TER CMPC Santa Fe**.
+- Análisis horario, diario, mensual y de registros `0 MWh` consolidado.
 - Pipeline modularizado en `src/`.
-- Dataset procesado CEN validado.
-- Dataset procesado obsoleto retirado.
 - Diccionario de datos CEN incorporado en `docs/`.
 - Fuente pública documentada.
-- Git y GitHub sincronizados.
-- Pendiente de actualización final: evidencias, mapa conceptual e informe técnico integrado.
+- Repositorio gestionado mediante Git y GitHub.
+- Trazabilidad F1 → F2 → F3 → F4 documentada.
 
 ---
 
@@ -495,4 +588,3 @@ Esta separación permite distinguir entre los componentes actualmente implementa
 
 - Matplotlib Development Team. *Matplotlib Documentation*.  
   https://matplotlib.org/stable/
-  
