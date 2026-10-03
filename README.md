@@ -73,7 +73,7 @@ El archivo original utilizado para el procesamiento se conserva localmente como:
 data/raw/generacion_real_cen_ene_ago_2026.csv
 ```
 
-El archivo fuente no se versiona en Git debido a su tamaño y porque puede obtenerse nuevamente desde la fuente pública.
+El archivo fuente `data/raw/generacion_real_cen_ene_ago_2026.csv` se mantiene versionado en el repositorio para favorecer la reproducibilidad del proyecto y permitir la ejecución completa del flujo F1–F4. Los datos provienen de la fuente pública del Coordinador Eléctrico Nacional (CEN).
 
 > El proyecto identifica la información como una fuente de acceso público. No se atribuye una licencia abierta específica mientras esta no haya sido verificada expresamente en los términos de publicación del CEN.
 
@@ -492,7 +492,7 @@ Se utilizan:
 - README;
 - evidencias de ejecución.
 
-Los archivos de `data/raw/` no se versionan. El dataset procesado sí se incorpora al repositorio para permitir verificar el resultado del pipeline.
+El archivo fuente utilizado por el proyecto se mantiene en `data/raw/` y el dataset procesado se incorpora en `data/processed/`, permitiendo reproducir y verificar el flujo completo de procesamiento.
 
 ---
 
@@ -588,3 +588,4 @@ La integración de las cuatro fases permite mantener continuidad entre **problem
 
 - Matplotlib Development Team. *Matplotlib Documentation*.  
   https://matplotlib.org/stable/
+
