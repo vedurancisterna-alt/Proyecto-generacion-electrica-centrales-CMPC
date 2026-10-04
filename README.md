@@ -193,7 +193,8 @@ Proyecto/
 │   └── README_F3.md
 │
 ├── F4/
-│   └── F4_Consolidado_Proyecto.ipynb
+│   ├── F4_Consolidado_Proyecto.ipynb
+│   └── figuras/              # figuras exportadas por el notebook (PNG, 200 dpi)
 │
 ├── data/
 │   ├── raw/
@@ -376,7 +377,22 @@ F4 incorpora:
 13. síntesis de resultados;
 14. discusión y limitaciones;
 15. conclusiones vinculadas con los objetivos;
-16. trazabilidad F1 → F2 → F3 → F4.
+16. trazabilidad F1 → F2 → F3 → F4;
+17. vínculo entre la discusión del foro técnico y la refactorización de la validación.
+
+### Figuras exportadas
+
+Al ejecutar F4, cada figura se guarda con `fig.savefig(..., dpi=200, bbox_inches="tight")` en `F4/figuras/`. Son las mismas figuras que usan el informe y el video, y se presentan como un relato en tres movimientos:
+
+| Archivo | Figura | Movimiento |
+|---|---|---|
+| `figura_1_perfil_horario.png` | Perfil horario promedio por central | Contexto |
+| `figura_2_media_mensual.png` | Generación media por hora, por mes | Contraste |
+| `figura_3_horas_cero.png` | Porcentaje de horas con 0 MWh por central y mes | Resolución |
+| `figura_A_evolucion_diaria.png` | Generación total diaria (complementaria) | — |
+| `figura_B_dia_semana.png` | Generación media por día de la semana (complementaria) | — |
+
+Bajo cada figura, el notebook responde qué muestra, qué se infiere, qué límite tiene y cómo aporta al relato.
 
 ### Principales resultados
 
