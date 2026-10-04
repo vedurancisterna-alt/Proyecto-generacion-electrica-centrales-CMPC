@@ -378,7 +378,8 @@ F4 incorpora:
 14. discusión y limitaciones;
 15. conclusiones vinculadas con los objetivos;
 16. trazabilidad F1 → F2 → F3 → F4;
-17. vínculo entre la discusión del foro técnico y la refactorización de la validación.
+17. vinculación de la reflexión metodológica de la Fase 4 con las decisiones técnicas, la reproducibilidad y la trazabilidad del proyecto.
+
 
 ### Figuras exportadas
 
